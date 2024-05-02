@@ -138,7 +138,7 @@ def calculate_coverage_density(document_tokens, summary_tokens):
     return 0., 0., 0.
   fragments = _greedily_extract(document_tokens, summary_tokens)
   summary_len = float(len(summary_tokens))
-  coverage = sum([len(fragment) for fragment in fragments]) / summary_len
-  density = sum([len(fragment)**2 for fragment in fragments]) / summary_len
+  coverage = sum(len(fragment) for fragment in fragments) / summary_len
+  density = sum(len(fragment)**2 for fragment in fragments) / summary_len
   normalized_density = density / summary_len
   return coverage, density, normalized_density

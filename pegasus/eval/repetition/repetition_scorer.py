@@ -122,7 +122,7 @@ class RepetitionScorer(scoring.BaseScorer):
     """
     tokens = self._tokenize(text)
     result = {}
-    if any([t.endswith("CR") for t in self.repetition_types]):
+    if any(t.endswith("CR") for t in self.repetition_types):
       spans = [s for s in _find_consecutive_repeating_subsequence_spans(tokens)]
     else:
       spans = []
@@ -130,7 +130,7 @@ class RepetitionScorer(scoring.BaseScorer):
     num_tokens = len(tokens)
     for repetition_type in self.repetition_types:
       if repetition_type == "regsLCR":
-        max_len = max([end - start for start, end in spans]) if spans else 0
+        max_len = max(end - start for start, end in spans) if spans else 0
         score = max_len / num_tokens if num_tokens > 0 else 0
       elif repetition_type == "regsTCR":
         score = _get_spans_total_length(
@@ -176,7 +176,7 @@ def _score_ngrams(ngrams: collections.Counter) -> float:
     A Score float.
   """
   num_total = sum(ngrams.values())
-  num_repeated = sum([c for c in ngrams.values() if c > 1])
+  num_repeated = sum(c for c in ngrams.values() if c > 1)
   return num_repeated / num_total if num_total > 0 else 0
 
 
@@ -278,4 +278,4 @@ def _merge_spans(spans: Iterable[Tuple[int, int]]) -> Iterable[Tuple[int, int]]:
 
 def _get_spans_total_length(spans: Iterable[Tuple[int, int]]) -> int:
   """Get the total lengths of possibly overlapping spans."""
-  return sum([end - start for start, end in _merge_spans(spans)])
+  return sum(end - start for start, end in _merge_spans(spans))
