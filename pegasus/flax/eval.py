@@ -56,7 +56,8 @@ class Evaluator(object, metaclass=abc.ABCMeta):
       _EVALUATORS[cls.__name__] = data_class_cls
     return data_class_cls
 
-  @abc.abstractproperty
+  @property
+  @abc.abstractmethod
   def expected_types(self) -> Dict[str, Type[Any]]:
     """Expected types of added example."""
     raise NotImplementedError
