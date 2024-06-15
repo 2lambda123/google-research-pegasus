@@ -251,8 +251,7 @@ def reshape_src_weight(src_weight, src_key, config):
     assert hidden_dim2 == config.qkv_dim
     head_dim = config.qkv_dim // config.num_heads
     return src_weight.reshape(config.num_heads, head_dim, config.qkv_dim)
-  elif src_key.endswith('q_proj/kernel') or src_key.endswith(
-      'k_proj/kernel') or src_key.endswith('v_proj/kernel'):
+  elif src_key.endswith(('q_proj/kernel', 'k_proj/kernel', 'v_proj/kernel')):
     hidden_dim1, hidden_dim2 = src_weight.shape
     assert hidden_dim1 == config.qkv_dim
     assert hidden_dim2 == config.qkv_dim
